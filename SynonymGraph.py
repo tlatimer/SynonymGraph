@@ -15,8 +15,8 @@ def main():
     while True:
         word = input('?')
         sg.find_children(word)
-        sg.write_svg(word)
-        os.startfile(f'{word}.svg')
+        out_file = sg.write_svg(word)
+        os.startfile(out_file)
 
 
 class Memoize:
@@ -67,12 +67,16 @@ class SynonymGraph:
         return v
 
     def write_svg(self, word):
-        vs = self.g.vs.select(_degree_gt=1)
-        to_plot = self.g.subgraph(vs)
+        out_file = f'output\\{word}.svg'
+
+        local_indexes = self.g.neighborhood(vertices=word, order=DEPTH)
+        local_g = self.g.subgraph(local_indexes)
+        connected_vs = local_g.vs.select(_degree_gt=1)
+        to_plot = local_g.subgraph(connected_vs)
 
         igraph.plot(
                 to_plot,
-                f'{word}.svg',
+                out_file,
                 layout=self.g.layout("kk"),
                 bbox=(1152, 522),
                 margin=20,
@@ -80,6 +84,8 @@ class SynonymGraph:
                 vertex_label=self.g.vs["name"],
                 vertex_size=40,
         )
+
+        return out_file
 
 
 @Memoize
