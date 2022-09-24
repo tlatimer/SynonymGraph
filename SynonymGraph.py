@@ -68,11 +68,8 @@ class SynonymGraph:
 
     def write_svg(self, word):
         out_file = f'output\\{word}.svg'
-
-        local_indexes = self.g.neighborhood(vertices=word, order=DEPTH)
-        local_g = self.g.subgraph(local_indexes)
-        connected_vs = local_g.vs.select(_degree_gt=1)
-        to_plot = local_g.subgraph(connected_vs)
+        vs = self.g.vs.select(_degree_gt=1)
+        to_plot = self.g.subgraph(vs)
 
         igraph.plot(
                 to_plot,
