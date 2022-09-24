@@ -77,7 +77,7 @@ class SynonymGraph:
         igraph.plot(
                 to_plot,
                 out_file,
-                layout=self.g.layout("circle"),
+                layout=self.g.layout("kk"),
                 bbox=(1152, 522),
                 margin=20,
                 autocurve=False,
