@@ -74,7 +74,7 @@ class SynonymGraph:
 
         local_indexes = self.g.neighborhood(vertices=word, order=DEPTH)
         local_g = self.g.subgraph(local_indexes)
-        connected_vs = local_g.vs.select(_degree_gt=3)
+        connected_vs = local_g.vs.select(_degree_gt=4)
         to_plot = local_g.subgraph(connected_vs)
         print(to_plot.summary())
 
@@ -87,6 +87,7 @@ class SynonymGraph:
                 autocurve=False,
                 vertex_label=self.g.vs["name"],
                 vertex_size=40,
+                root=self.get_vertex(word),
         )
 
         return out_file
