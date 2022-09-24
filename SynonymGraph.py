@@ -40,14 +40,14 @@ class SynonymGraph:
             # end the recursion
             return
 
-        n = self.get_vertex(start_word)
-        # if n['found_children']:
-        #     return
+        v = self.get_vertex(start_word)
+        if v['found_children']:
+            return
 
         for syn in get_synonyms(start_word):
             s = self.get_vertex(syn)
-            self.g.add_edge(n, s)
-            n['found_children'] = True
+            self.g.add_edge(v, s)
+            v['found_children'] = True
             self.find_children(syn, depth=depth - 1)
 
     def get_vertex(self, name):
