@@ -42,14 +42,16 @@ class SynonymGraph:
             return
 
         v = self.get_vertex(start_word)
-        if v['found_children']:
-            return
+        # if v['found_children']:
+        #     return
 
         for syn in get_synonyms(start_word):
             s = self.get_vertex(syn)
             self.g.add_edge(v, s)
-            v['found_children'] = True
+
             self.find_children(syn, depth=depth - 1)
+
+        v['found_children'] = True
 
     def get_vertex(self, name):
         try:
@@ -72,7 +74,7 @@ class SynonymGraph:
 
         local_indexes = self.g.neighborhood(vertices=word, order=DEPTH)
         local_g = self.g.subgraph(local_indexes)
-        connected_vs = local_g.vs.select(_degree_gt=2)
+        connected_vs = local_g.vs.select(_degree_gt=3)
         to_plot = local_g.subgraph(connected_vs)
         print(to_plot.summary())
 
