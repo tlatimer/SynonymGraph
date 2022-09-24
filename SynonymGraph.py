@@ -16,6 +16,7 @@ def main():
     while True:
         word = input('?')
         sg.find_children(word)
+        sg.g.simplify()
         out_file = sg.write_svg(word)
         os.startfile(out_file)
 
@@ -71,14 +72,14 @@ class SynonymGraph:
 
         local_indexes = self.g.neighborhood(vertices=word, order=DEPTH)
         local_g = self.g.subgraph(local_indexes)
-        connected_vs = local_g.vs.select(_degree_gt=1)
+        connected_vs = local_g.vs.select(_degree_gt=2)
         to_plot = local_g.subgraph(connected_vs)
         print(to_plot.summary())
 
         igraph.plot(
                 to_plot,
                 out_file,
-                layout=self.g.layout("kk"),
+                layout=to_plot.layout("kk"),
                 bbox=(1152, 522),
                 margin=20,
                 autocurve=False,
