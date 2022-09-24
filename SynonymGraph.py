@@ -75,7 +75,7 @@ class SynonymGraph:
         to_plot = local_g.subgraph(connected_vs)
 
         igraph.plot(
-                to_plot,
+                local_g,
                 out_file,
                 layout=self.g.layout("kk"),
                 bbox=(1152, 522),
