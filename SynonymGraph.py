@@ -35,21 +35,20 @@ class SynonymGraph:
     def __init__(self):
         self.g = igraph.Graph()
 
-    def find_children(self, start_word, depth=DEPTH):
+    def find_children(self, start_word, depth=DEPTH + 1):
         if depth == 0:
             # end the recursion
             return
 
-        # n = self.get_vertex(start_word)
+        n = self.get_vertex(start_word)
         # if n['found_children']:
         #     return
 
         for syn in get_synonyms(start_word):
             s = self.get_vertex(syn)
             self.g.add_edge(n, s)
+            n['found_children'] = True
             self.find_children(syn, depth=depth - 1)
-
-        n['found_children'] = True
 
     def get_vertex(self, name):
         try:
@@ -76,9 +75,9 @@ class SynonymGraph:
         to_plot = local_g.subgraph(connected_vs)
 
         igraph.plot(
-                local_g,
+                to_plot,
                 out_file,
-                layout=self.g.layout("kk"),
+                layout=self.g.layout("circle"),
                 bbox=(1152, 522),
                 margin=20,
                 autocurve=False,
