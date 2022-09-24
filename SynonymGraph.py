@@ -73,6 +73,7 @@ class SynonymGraph:
         local_g = self.g.subgraph(local_indexes)
         connected_vs = local_g.vs.select(_degree_gt=1)
         to_plot = local_g.subgraph(connected_vs)
+        print(to_plot.summary())
 
         igraph.plot(
                 to_plot,
